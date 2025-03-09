@@ -1,13 +1,17 @@
-package com.webshop.Demo01.DTO;
+package com.webshop.Demo01.DTO.Report;
 
-public class MonthlyRevenue {
-    private String month;
+public class MonthlyRevenueDto {
+
+    private String month;     // "2025-03"
     private Double revenue;
 
-    public MonthlyRevenue(String month, Double revenue) {
+    public MonthlyRevenueDto() {}
+
+    public MonthlyRevenueDto(String month, Double revenue) {
         this.month = month;
         this.revenue = revenue;
     }
+
     public String getMonth() {
         return month;
     }

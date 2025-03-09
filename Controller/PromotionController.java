@@ -13,38 +13,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.webshop.Demo01.DTO.PromotionDto;
 import com.webshop.Demo01.Model.Promotion;
 import com.webshop.Demo01.Service.PromotionService;
 
 @RestController
 @RequestMapping("/admin/promotions")
 public class PromotionController {
+
     @Autowired
     private PromotionService promotionService;
 
     // Danh sach tat ca cac khuyen mai
     @GetMapping
-    public List<Promotion> listPromotions() {
+    public List<PromotionDto> listPromotions() {
         return promotionService.getAllPromotions();
     }
 
     // Khuyen mai theo id sp
     @GetMapping("/{id}")
-    public Optional<Promotion> getPromotion(@PathVariable Long id) {
-        return promotionService.getPromotionById(id);
+    public PromotionDto getPromotion(@PathVariable Long id) {
+        Optional<Promotion> promoOpt = promotionService.getPromotionById(id);
+        if(promoOpt.isPresent()){
+            // Chuyển đổi sang DTO
+            return promotionService.getAllPromotions()
+                    .stream()
+                    .filter(dto -> dto.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+        }
+        throw new RuntimeException("Promotion not found");
     }
 
     // Tao moi khuyen mai (+ ma giam gia)
     @PostMapping
-    public Promotion createPromotion(@RequestBody Promotion promotion) {
-        return promotionService.createPromotion(promotion);
+    public PromotionDto createPromotion(@RequestBody PromotionDto promotionDto) {
+        return promotionService.createPromotion(promotionDto);
     }
 
     // Cap nhat thong tin khuyen mai
     @PutMapping("/{id}")
-    public Promotion updatePromotion(@PathVariable Long id, @RequestBody Promotion promotion) {
-        Promotion updated = promotionService.updatePromotion(id, promotion);
-        if(updated == null) {
+    public PromotionDto updatePromotion(@PathVariable Long id, @RequestBody PromotionDto promotionDto) {
+        PromotionDto updated = promotionService.updatePromotion(id, promotionDto);
+        if(updated == null){
             throw new RuntimeException("Promotion not found");
         }
         return updated;

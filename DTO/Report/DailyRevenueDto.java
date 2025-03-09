@@ -1,14 +1,18 @@
-package com.webshop.Demo01.DTO;
+package com.webshop.Demo01.DTO.Report;
 
 // baos cao rieng
-public class DailyRevenue {
-    private String date;
+public class DailyRevenueDto {
+
+    private String date;      // "2025-03-04"
     private Double revenue;
 
-    public DailyRevenue(String date, Double revenue) {
+    public DailyRevenueDto() {}
+
+    public DailyRevenueDto(String date, Double revenue) {
         this.date = date;
         this.revenue = revenue;
     }
+
     public String getDate() {
         return date;
     }

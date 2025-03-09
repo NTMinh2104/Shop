@@ -1,13 +1,17 @@
-package com.webshop.Demo01.DTO;
+package com.webshop.Demo01.DTO.Report;
 
-public class YearlyRevenue {
-    private String year;
+public class YearlyRevenueDto {
+
+    private String year;      // "2025"
     private Double revenue;
 
-    public YearlyRevenue(String year, Double revenue) {
+    public YearlyRevenueDto() {}
+
+    public YearlyRevenueDto(String year, Double revenue) {
         this.year = year;
         this.revenue = revenue;
     }
+
     public String getYear() {
         return year;
     }

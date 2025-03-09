@@ -1,20 +1,24 @@
-package com.webshop.Demo01.DTO;
+package com.webshop.Demo01.DTO.Report;
 
-public class SalesReportProduct {
-    private String productName;
+public class SalesReportCategoryDto {
+
+    private String categoryName;
     private Integer quantitySold;
     private Double totalSales;
 
-    public SalesReportProduct(String productName, Integer quantitySold, Double totalSales) {
-        this.productName = productName;
+    public SalesReportCategoryDto() {}
+
+    public SalesReportCategoryDto(String categoryName, Integer quantitySold, Double totalSales) {
+        this.categoryName = categoryName;
         this.quantitySold = quantitySold;
         this.totalSales = totalSales;
     }
-    public String getProductName() {
-        return productName;
+
+    public String getCategoryName() {
+        return categoryName;
     }
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
     public Integer getQuantitySold() {
         return quantitySold;

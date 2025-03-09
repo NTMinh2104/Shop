@@ -11,43 +11,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.webshop.Demo01.DTO.OrderDto;
 import com.webshop.Demo01.Model.Order;
 import com.webshop.Demo01.Model.OrderStatus;
 import com.webshop.Demo01.Service.OrderService;
 
 @RestController
 @RequestMapping("/admin/orders")
-public class OrderController {
+public class OrderController {  
+
     @Autowired
     private OrderService orderService;
     
     // Lay ds don hang (cos the loc theo trang thai)
     //    /admin/orders?status=PROCESSING
     @GetMapping
-    public List<Order> listOrders(@RequestParam(required = false) OrderStatus status) {
-        if (status != null) {
-            return orderService.getOrdersByStatus(status);
-        } else {
-            return orderService.getAllOrders();
-        }
+    public List<OrderDto> listOrders(@RequestParam(required = false) OrderStatus status) {
+        return orderService.getAllOrders(Optional.ofNullable(status));
     }
     
     // Cap nhat trang thai
     //   /admin/orders/1/status?status=DELIVERED
-    @PutMapping("/{orderId}/status")
-    public Order updateOrderStatus(@PathVariable Long orderId, @RequestParam OrderStatus status) {
-        Order updatedOrder = orderService.updateOrderStatus(orderId, status);
-        if(updatedOrder == null){
+    @PutMapping("/{id}/status")
+    public Order updateOrderStatus(@PathVariable Long id, @RequestParam OrderStatus status) {
+        Order updatedOrder = orderService.updateOrderStatus(id, status);
+        if(updatedOrder == null) {
             throw new RuntimeException("Order not found");
         }
         return updatedOrder;
     }
     
-    // In hoa don, xuat file son hang (text)
+    // In hoa don, xuat file don hang (text)
     //    /admin/orders/1/invoice
-    @GetMapping("/{orderId}/invoice")
-    public String getInvoice(@PathVariable Long orderId) {
-        Optional<Order> orderOpt = orderService.getOrderById(orderId);
+    @GetMapping("/{id}/invoice")
+    public String getInvoice(@PathVariable Long id) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
         if(orderOpt.isPresent()){
             return orderService.generateInvoice(orderOpt.get());
         }
@@ -56,13 +54,8 @@ public class OrderController {
     
     // Van chuyen
     //    /admin/orders/1/tracking
-    @GetMapping("/{orderId}/tracking")
-    public String getTracking(@PathVariable Long orderId) {
-        Optional<Order> orderOpt = orderService.getOrderById(orderId);
-        if(orderOpt.isPresent()){
-            Order order = orderOpt.get();
-            return "Tracking Number: " + order.getShippingTrackingNumber();
-        }
-        throw new RuntimeException("Order not found");
+    @GetMapping("/{id}/tracking")
+    public String getTracking(@PathVariable Long id) {
+        return orderService.getTrackingInfo(id);
     }
 }

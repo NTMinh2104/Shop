@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.webshop.Demo01.DTO.EmployeeDto;
 import com.webshop.Demo01.Model.Employee;
 import com.webshop.Demo01.Service.EmployeeService;
 
@@ -25,7 +26,7 @@ public class EmployeeController {
     
     // Lay ds tat ca thanh vien
     @GetMapping
-    public List<Employee> listEmployees() {
+    public List<EmployeeDto> listEmployees() {
         return employeeService.getAllEmployees();
     }
     
@@ -37,15 +38,15 @@ public class EmployeeController {
     
     // Tao tk nvien moi
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+    public EmployeeDto createEmployee(@RequestBody EmployeeDto employeeDto) {
+        return employeeService.createEmployee(employeeDto);
     }
     
     // Cap nhat tt nhanvien
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        Employee updated = employeeService.updateEmployee(id, employee);
-        if(updated == null) {
+    public EmployeeDto updateEmployee(@PathVariable Long id, @RequestBody EmployeeDto employeeDto) {
+        EmployeeDto updated = employeeService.updateEmployee(id, employeeDto);
+        if(updated == null){
             throw new RuntimeException("Employee not found");
         }
         return updated;

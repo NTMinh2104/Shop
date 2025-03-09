@@ -1,9 +1,18 @@
-package com.webshop.Demo01.DTO;
+package com.webshop.Demo01.DTO.Report;
 
-public class ReportStatistics {
+public class ReportStatisticsDto {
+
     private Integer totalCustomers;
     private Integer totalOrders;
     private String employeePerformance;
+
+    public ReportStatisticsDto() {}
+
+    public ReportStatisticsDto(Integer totalCustomers, Integer totalOrders, String employeePerformance) {
+        this.totalCustomers = totalCustomers;
+        this.totalOrders = totalOrders;
+        this.employeePerformance = employeePerformance;
+    }
 
     public Integer getTotalCustomers() {
         return totalCustomers;
